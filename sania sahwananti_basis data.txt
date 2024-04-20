@@ -1,0 +1,514 @@
+No.1 MariaDB [(none)]>  CREATE DATABASE dbpegawaii;
+Query OK, 1 row affected (0.018 sec)
+2. MariaDB [(none)]>  USE dbpegawaii;
+Database changed
+3.MariaDB [dbpegawaii]>  CREATE TABLE divisi
+    -> ( id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30)
+    -> NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.134 sec)
+4. MariaDB [dbpegawaii]> DESCRIBE divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.028 sec)
+5. CREATE TABLE jabatan
+    -> (    id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30)
+    -> NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.045 sec)
+6. MariaDB [dbpegawaii]>  DESCRIBE jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.014 sec)
+7. MariaDB [dbpegawaii]> CREATE TABLE pegawai
+    -> (id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nip CHAR(5) NOT NULL UNIQUE,
+    -> nama VARCHAR(30) NOT NULL,
+    -> gender ENUM('Laki-laki', 'Perempuan'),
+    -> tmp_lahir VARCHAR(30),
+    -> tgl_lahir DATE,
+    -> id_divisi INT,
+    -> id_jabatan INT,
+    -> alamat TEXT);
+Query OK, 0 rows affected (0.095 sec)
+8. MariaDB [dbpegawaii]> DESCRIBE pegawai;
++------------+-------------------------------+------+-----+---------+----------------+
+| Field      | Type                          | Null | Key | Default | Extra          |
++------------+-------------------------------+------+-----+---------+----------------+
+| id         | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip        | char(5)                       | NO   | UNI | NULL    |                |
+| nama       | varchar(30)                   | NO   |     | NULL    |                |
+| gender     | enum('Laki-laki','Perempuan') | YES  |     | NULL    |                |
+| tmp_lahir  | varchar(30)                   | YES  |     | NULL    |                |
+| tgl_lahir  | date                          | YES  |     | NULL    |                |
+| id_divisi  | int(11)                       | YES  |     | NULL    |                |
+| id_jabatan | int(11)                       | YES  |     | NULL    |                |
+| alamat     | text                          | YES  |     | NULL    |                |
++------------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.393 sec)
+9. MariaDB [dbpegawaii]> SHOW TABLES;
++----------------------+
+| Tables_in_dbpegawaii |
++----------------------+
+| divisi               |
+| jabatan              |
+| pegawai              |
++----------------------+
+3 rows in set (0.149 sec)
+10. MariaDB [dbpegawaii]> INSERT INTO divisi (nama) VALUES
+    ->  ('SDM'),
+    -> ('Keuangan'),
+    -> ('Marketing'),
+    -> ('IT');
+Query OK, 4 rows affected (0.059 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+11.MariaDB [dbpegawaii]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+|  4 | IT        |
+|  2 | Keuangan  |
+|  3 | Marketing |
+|  1 | SDM       |
++----+-----------+
+4 rows in set (0.011 sec)
+12.MariaDB [dbpegawaii]> INSERT INTO jabatan (nama) VALUES
+    -> ('Direktur'),
+    -> ('Manajer'),
+    -> ('Asisten Manajer'),
+    -> ('Staff');
+Query OK, 4 rows affected (0.039 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+13. MariaDB [dbpegawaii]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+|  3 | Asisten Manajer |
+|  1 | Direktur        |
+|  2 | Manajer         |
+|  4 | Staff           |
++----+-----------------+
+4 rows in set (0.001 sec)
+14. MariaDB [dbpegawaii]> INSERT INTO pegawai (nip, nama, gender, tmp_lahir, tgl_lahir, iddivisi, idjabatan, alamat)
+    -> VALUES
+    -> ('00001', 'Nadila Nurizki', 'Perempuan', 'Bogor', '2004-02-28', 3, 3, 'Sukajaya'),
+    -> ('00002', 'Muhammad Fazri', 'Laki-Laki', 'Cianjur', '2005-03-31', 2, 2, 'Cikadu'),
+    -> ('00003', 'Gita Lestari', 'Perempuan', 'Bandung', '2001-02-30', 1, 1, 'Naringgul'),
+    -> ('00004', 'Revan Kurniawan', 'Laki-Laki', 'Surabaya', '2000-01-29', 2, 2, 'Cidahu'),
+    ->  ('00005', 'Sania Sahwananti', 'Perempuan', 'Sulawesi', '2000-01-14', 1, 1, 'Sukajaya'),
+    ->  ('00006', 'Andi Santoso', 'Laki-Laki', 'Jakarta', '2002-01-12', 2, 2, 'Sukamanah'),
+    ->  ('00007', 'Amanda', 'Perempuan', 'Cikalong', '2001-02-30', 1, 1, 'Maleber'),
+    ->  ('00008', 'Asep', 'Laki-Laki', 'Jonggol', '2005-03-29', 4, 4, 'Darungdung'),
+    ->  ('00009', 'Melinda', 'Perempuan', 'Madura', '2002-01-28', 3, 3, 'Lewiloa'),
+    ->  ('00010', 'Farel', 'Laki-Laki', 'Jakarta', '2002-02-20', 1, 1, 'cisarua'),
+    ->  ('00011', 'Riska Marissa', 'Perempuan', 'semarang', '2001-01-12', 2, 2, 'Cipanas'),
+    ->  ('00012', 'Faris', 'Laki-Laki', 'Solo', '2004-07-07',3, 3, 'Nanggleng'),
+    ->  ('00013', 'Kania Amalia', 'Perempuan', 'Sumatera', '2001-01-29', 1, 1, 'Cikaret'),
+    ->  ('00014', 'Alfan', 'Laki-Laki', 'Jambi', '2000-01-21', 3, 3, 'Mande'),
+    ->  ('00015', 'Wahuril Inayah', 'Perempuan', 'Denpasar', '2005-09-13', 2, 2, 'Pangkalan'),
+    ->  ('00016', 'Alfiansyah', 'Laki-Laki', '', '2002-06-12', 1, 1, 'Gandasoli'),
+    ->  ('00017', 'Putri Cahya', 'Perempuan', 'Kalimantan', '2002-01-15', 4, 4, 'Ciherang'),
+    ->  ('00018', 'Sopyan', 'Laki-Laki', 'Plered', '2004-04-27', 2, 2, 'Maniis'),
+    ->  ('00019', 'Linda', 'Perempuan', 'Banjarmasin', '2003-05-17', 2, 2, 'Cirata'),
+    ->  ('00020', 'Alkahfi', 'Laki-Laki', 'Tasikmalaya', '2004-08-20', 3, 3, 'Serang');
+Query OK, 20 rows affected, 2 warnings (0.011 sec)
+Records: 20  Duplicates: 0  Warnings: 2
+15. MariaDB [dbpegawaii]> SELECT * FROM pegawai;
++----+-------+------------------+-----------+-------------+------------+-----------+------------+------------+----------+-----------+
+| id | nip   | nama             | gender    | tmp_lahir   | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan |
++----+-------+------------------+-----------+-------------+------------+-----------+------------+------------+----------+-----------+
+|  1 | 00001 | Nadila Nurizki   | Perempuan | Bogor       | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |
+|  2 | 00002 | Muhammad Fazri   | Laki-laki | Cianjur     | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |
+|  3 | 00003 | Gita Lestari     | Perempuan | Bandung     | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |
+|  4 | 00004 | Revan Kurniawan  | Laki-laki | Surabaya    | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |
+|  5 | 00005 | Sania Sahwananti | Perempuan | Sulawesi    | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |
+|  6 | 00006 | Andi Santoso     | Laki-laki | Jakarta     | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |
+|  7 | 00007 | Amanda           | Perempuan | Cikalong    | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |
+|  8 | 00008 | Asep             | Laki-laki | Jonggol     | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |
+|  9 | 00009 | Melinda          | Perempuan | Madura      | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |
+| 10 | 00010 | Farel            | Laki-laki | Jakarta     | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |
+| 11 | 00011 | Riska Marissa    | Perempuan | semarang    | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |
+| 12 | 00012 | Faris            | Laki-laki | Solo        | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |
+| 13 | 00013 | Kania Amalia     | Perempuan | Sumatera    | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |
+| 14 | 00014 | Alfan            | Laki-laki | Jambi       | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |
+| 15 | 00015 | Wahuril Inayah   | Perempuan | Denpasar    | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |
+| 16 | 00016 | Alfiansyah       | Laki-laki |             | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |
+| 17 | 00017 | Putri Cahya      | Perempuan | Kalimantan  | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |
+| 18 | 00018 | Sopyan           | Laki-laki | Plered      | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |
+| 19 | 00019 | Linda            | Perempuan | Banjarmasin | 2003-05-17 |      NULL |       NULL | Cirata     |        2 |         2 |
+| 20 | 00020 | Alkahfi          | Laki-laki | Tasikmalaya | 2004-08-20 |      NULL |       NULL | Serang     |        3 |         3 |
++----+-------+------------------+-----------+-------------+------------+-----------+------------+------------+----------+-----------+
+20 rows in set (0.001 sec)
+16. MariaDB [dbpegawaii]> UPDATE pegawai
+    -> SET tmp_lahir = 'Bali', idjabatan = 4
+    ->  WHERE id IN (32, 21, 33, 24, 29);
+Query OK, 0 rows affected (0.015 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+17. MariaDB [dbpegawaii]>  DELETE FROM pegawai
+    ->  ORDER BY id DESC
+    -> LIMIT 2;
+Query OK, 2 rows affected (0.013 sec)
+18. MariaDB [dbpegawaii]>  ALTER TABLE pegawai
+    -> ADD COLUMN IF NOT EXISTS
+    -> berat_badan FLOAT NOT NULL;
+Query OK, 0 rows affected (0.019 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+19. MariaDB [dbpegawaii]> UPDATE pegawai
+    ->  SET berat_badan = FLOOR(RAND() * 80) + 40;
+Query OK, 18 rows affected (0.018 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+20. MariaDB [dbpegawaii]> SELECT * FROM pegawai;
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+
+| id | nip   | nama             | gender    | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan |
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+
+|  1 | 00001 | Nadila Nurizki   | Perempuan | Bogor      | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |          51 |
+|  2 | 00002 | Muhammad Fazri   | Laki-laki | Cianjur    | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |
+|  3 | 00003 | Gita Lestari     | Perempuan | Bandung    | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |          56 |
+|  4 | 00004 | Revan Kurniawan  | Laki-laki | Surabaya   | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |
+|  5 | 00005 | Sania Sahwananti | Perempuan | Sulawesi   | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |          84 |
+|  6 | 00006 | Andi Santoso     | Laki-laki | Jakarta    | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |
+|  7 | 00007 | Amanda           | Perempuan | Cikalong   | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |
+|  8 | 00008 | Asep             | Laki-laki | Jonggol    | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |
+|  9 | 00009 | Melinda          | Perempuan | Madura     | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |          69 |
+| 10 | 00010 | Farel            | Laki-laki | Jakarta    | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |
+| 11 | 00011 | Riska Marissa    | Perempuan | semarang   | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |
+| 12 | 00012 | Faris            | Laki-laki | Solo       | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |
+| 13 | 00013 | Kania Amalia     | Perempuan | Sumatera   | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |          59 |
+| 14 | 00014 | Alfan            | Laki-laki | Jambi      | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |
+| 15 | 00015 | Wahuril Inayah   | Perempuan | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |          50 |
+| 16 | 00016 | Alfiansyah       | Laki-laki |            | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |
+| 17 | 00017 | Putri Cahya      | Perempuan | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |          63 |
+| 18 | 00018 | Sopyan           | Laki-laki | Plered     | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+
+18 rows in set (0.002 sec)
+21. MariaDB [dbpegawaii]>  ALTER TABLE pegawai
+    -> ADD COLUMN IF NOT EXISTS
+    -> umur INT NOT NULL;
+Query OK, 0 rows affected (0.033 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+22. MariaDB [dbpegawaii]>  UPDATE pegawai
+    -> SET umur = FLOOR(RAND() * 40) + 20;
+Query OK, 18 rows affected (0.013 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+23.MariaDB [dbpegawaii]> SELECT * FROM pegawai;
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama             | gender    | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+|  1 | 00001 | Nadila Nurizki   | Perempuan | Bogor      | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |          51 |   41 |
+|  2 | 00002 | Muhammad Fazri   | Laki-laki | Cianjur    | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  3 | 00003 | Gita Lestari     | Perempuan | Bandung    | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |          56 |   33 |
+|  4 | 00004 | Revan Kurniawan  | Laki-laki | Surabaya   | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+|  5 | 00005 | Sania Sahwananti | Perempuan | Sulawesi   | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |          84 |   49 |
+|  6 | 00006 | Andi Santoso     | Laki-laki | Jakarta    | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  7 | 00007 | Amanda           | Perempuan | Cikalong   | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+|  8 | 00008 | Asep             | Laki-laki | Jonggol    | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+|  9 | 00009 | Melinda          | Perempuan | Madura     | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |          69 |   28 |
+| 10 | 00010 | Farel            | Laki-laki | Jakarta    | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+| 11 | 00011 | Riska Marissa    | Perempuan | semarang   | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+| 12 | 00012 | Faris            | Laki-laki | Solo       | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 13 | 00013 | Kania Amalia     | Perempuan | Sumatera   | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |          59 |   28 |
+| 14 | 00014 | Alfan            | Laki-laki | Jambi      | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 15 | 00015 | Wahuril Inayah   | Perempuan | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |          50 |   25 |
+| 16 | 00016 | Alfiansyah       | Laki-laki |            | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 17 | 00017 | Putri Cahya      | Perempuan | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |          63 |   46 |
+| 18 | 00018 | Sopyan           | Laki-laki | Plered     | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
++----+-------+------------------+-----------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+18 rows in set (0.001 sec)
+24. MariaDB [dbpegawaii]> ALTER TABLE pegawai
+    -> CHANGE COLUMN gender jenis_kelamin ENUM('laki-laki','perempuan') NOT NULL;
+Query OK, 0 rows affected (0.115 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+25. MariaDB [dbpegawaii]> SELECT nip,nama,jenis_kelamin,alamat FROM pegawai;
++-------+------------------+---------------+------------+
+| nip   | nama             | jenis_kelamin | alamat     |
++-------+------------------+---------------+------------+
+| 00001 | Nadila Nurizki   | perempuan     | Sukajaya   |
+| 00002 | Muhammad Fazri   | laki-laki     | Cikadu     |
+| 00003 | Gita Lestari     | perempuan     | Naringgul  |
+| 00004 | Revan Kurniawan  | laki-laki     | Cidahu     |
+| 00005 | Sania Sahwananti | perempuan     | Sukajaya   |
+| 00006 | Andi Santoso     | laki-laki     | Sukamanah  |
+| 00007 | Amanda           | perempuan     | Maleber    |
+| 00008 | Asep             | laki-laki     | Darungdung |
+| 00009 | Melinda          | perempuan     | Lewiloa    |
+| 00010 | Farel            | laki-laki     | cisarua    |
+| 00011 | Riska Marissa    | perempuan     | Cipanas    |
+| 00012 | Faris            | laki-laki     | Nanggleng  |
+| 00013 | Kania Amalia     | perempuan     | Cikaret    |
+| 00014 | Alfan            | laki-laki     | Mande      |
+| 00015 | Wahuril Inayah   | perempuan     | Pangkalan  |
+| 00016 | Alfiansyah       | laki-laki     | Gandasoli  |
+| 00017 | Putri Cahya      | perempuan     | Ciherang   |
+| 00018 | Sopyan           | laki-laki     | Maniis     |
++-------+------------------+---------------+------------+
+18 rows in set (0.001 sec)
+26.MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'laki-laki';
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama            | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+|  2 | 00002 | Muhammad Fazri  | laki-laki     | Cianjur   | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  4 | 00004 | Revan Kurniawan | laki-laki     | Surabaya  | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+|  6 | 00006 | Andi Santoso    | laki-laki     | Jakarta   | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  8 | 00008 | Asep            | laki-laki     | Jonggol   | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 10 | 00010 | Farel           | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+| 12 | 00012 | Faris           | laki-laki     | Solo      | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 14 | 00014 | Alfan           | laki-laki     | Jambi     | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 16 | 00016 | Alfiansyah      | laki-laki     |           | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 18 | 00018 | Sopyan          | laki-laki     | Plered    | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+9 rows in set (0.003 sec)
+-MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin LIKE '%laki-laki';
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama            | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+|  2 | 00002 | Muhammad Fazri  | laki-laki     | Cianjur   | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  4 | 00004 | Revan Kurniawan | laki-laki     | Surabaya  | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+|  6 | 00006 | Andi Santoso    | laki-laki     | Jakarta   | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  8 | 00008 | Asep            | laki-laki     | Jonggol   | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 10 | 00010 | Farel           | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+| 12 | 00012 | Faris           | laki-laki     | Solo      | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 14 | 00014 | Alfan           | laki-laki     | Jambi     | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 16 | 00016 | Alfiansyah      | laki-laki     |           | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 18 | 00018 | Sopyan          | laki-laki     | Plered    | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+9 rows in set (0.002 sec)
+28.MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    -> WHERE iddivisi = 4 AND jenis_kelamin = 'perempuan';
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+| id | nip   | nama        | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat   | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+| 17 | 00017 | Putri Cahya | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang |        4 |         4 |          63 |   46 |
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+1 row in set (0.012 sec)
+- MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> WHERE iddivisi = (SELECT id FROM divisi WHERE nama = 'IT')
+    -> AND jenis_kelamin = 'Perempuan';
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+| id | nip   | nama        | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat   | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+| 17 | 00017 | Putri Cahya | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang |        4 |         4 |          63 |   46 |
++----+-------+-------------+---------------+------------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+1 row in set (0.007 sec)
+29.MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> WHERE umur > 30 AND tmp_lahir = 'Jakarta';
++----+-------+-------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+| id | nip   | nama  | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat  | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+| 10 | 00010 | Farel | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua |        1 |         1 |         119 |   56 |
++----+-------+-------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+1 row in set (0.002 sec)
+30.MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    ->  WHERE iddivisi = 3 AND umur > 30 AND jenis_kelamin = 'Perempuan';
++----+-------+----------------+---------------+-----------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+| id | nip   | nama           | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat   | iddivisi | idjabatan | berat_badan | umur |
++----+-------+----------------+---------------+-----------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+|  1 | 00001 | Nadila Nurizki | perempuan     | Bogor     | 2004-02-28 |      NULL |       NULL | Sukajaya |        3 |         3 |          51 |   41 |
++----+-------+----------------+---------------+-----------+------------+-----------+------------+----------+----------+-----------+-------------+------+
+1 row in set (0.002 sec)
+31.MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    ->  WHERE jenis_kelamin = 'Laki-Laki';
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama            | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+|  2 | 00002 | Muhammad Fazri  | laki-laki     | Cianjur   | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  4 | 00004 | Revan Kurniawan | laki-laki     | Surabaya  | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+|  6 | 00006 | Andi Santoso    | laki-laki     | Jakarta   | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  8 | 00008 | Asep            | laki-laki     | Jonggol   | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 10 | 00010 | Farel           | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+| 12 | 00012 | Faris           | laki-laki     | Solo      | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 14 | 00014 | Alfan           | laki-laki     | Jambi     | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 16 | 00016 | Alfiansyah      | laki-laki     |           | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 18 | 00018 | Sopyan          | laki-laki     | Plered    | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
++----+-------+-----------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+9 rows in set (0.001 sec)
+32.MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    ->  WHERE nip IN('11111','11112','11113');
+Empty set (0.003 sec)
+33.MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    ->  WHERE tmp_lahir NOT IN('Jakarta','Depok','Bali');
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+|  1 | 00001 | Nadila Nurizki   | perempuan     | Bogor      | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |          51 |   41 |
+|  2 | 00002 | Muhammad Fazri   | laki-laki     | Cianjur    | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  3 | 00003 | Gita Lestari     | perempuan     | Bandung    | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |          56 |   33 |
+|  4 | 00004 | Revan Kurniawan  | laki-laki     | Surabaya   | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+|  5 | 00005 | Sania Sahwananti | perempuan     | Sulawesi   | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |          84 |   49 |
+|  7 | 00007 | Amanda           | perempuan     | Cikalong   | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+|  8 | 00008 | Asep             | laki-laki     | Jonggol    | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+|  9 | 00009 | Melinda          | perempuan     | Madura     | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |          69 |   28 |
+| 11 | 00011 | Riska Marissa    | perempuan     | semarang   | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+| 12 | 00012 | Faris            | laki-laki     | Solo       | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 13 | 00013 | Kania Amalia     | perempuan     | Sumatera   | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |          59 |   28 |
+| 14 | 00014 | Alfan            | laki-laki     | Jambi      | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 15 | 00015 | Wahuril Inayah   | perempuan     | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |          50 |   25 |
+| 16 | 00016 | Alfiansyah       | laki-laki     |            | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 17 | 00017 | Putri Cahya      | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |          63 |   46 |
+| 18 | 00018 | Sopyan           | laki-laki     | Plered     | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+16 rows in set (0.001 sec)
+34. MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> ORDER BY nama ASC;
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| 14 | 00014 | Alfan            | laki-laki     | Jambi      | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+| 16 | 00016 | Alfiansyah       | laki-laki     |            | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+|  7 | 00007 | Amanda           | perempuan     | Cikalong   | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+|  6 | 00006 | Andi Santoso     | laki-laki     | Jakarta    | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  8 | 00008 | Asep             | laki-laki     | Jonggol    | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 10 | 00010 | Farel            | laki-laki     | Jakarta    | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+| 12 | 00012 | Faris            | laki-laki     | Solo       | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+|  3 | 00003 | Gita Lestari     | perempuan     | Bandung    | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |          56 |   33 |
+| 13 | 00013 | Kania Amalia     | perempuan     | Sumatera   | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |          59 |   28 |
+|  9 | 00009 | Melinda          | perempuan     | Madura     | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |          69 |   28 |
+|  2 | 00002 | Muhammad Fazri   | laki-laki     | Cianjur    | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+|  1 | 00001 | Nadila Nurizki   | perempuan     | Bogor      | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |          51 |   41 |
+| 17 | 00017 | Putri Cahya      | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |          63 |   46 |
+|  4 | 00004 | Revan Kurniawan  | laki-laki     | Surabaya   | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
+| 11 | 00011 | Riska Marissa    | perempuan     | semarang   | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+|  5 | 00005 | Sania Sahwananti | perempuan     | Sulawesi   | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |          84 |   49 |
+| 18 | 00018 | Sopyan           | laki-laki     | Plered     | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
+| 15 | 00015 | Wahuril Inayah   | perempuan     | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |          50 |   25 |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+18 rows in set (0.002 sec)
+35.MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    ->  ORDER BY berat_badan DESC;
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| 10 | 00010 | Farel            | laki-laki     | Jakarta    | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+|  8 | 00008 | Asep             | laki-laki     | Jonggol    | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 11 | 00011 | Riska Marissa    | perempuan     | semarang   | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+|  7 | 00007 | Amanda           | perempuan     | Cikalong   | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+| 14 | 00014 | Alfan            | laki-laki     | Jambi      | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+|  6 | 00006 | Andi Santoso     | laki-laki     | Jakarta    | 2002-01-12 |      NULL |       NULL | Sukamanah  |        2 |         2 |          95 |   30 |
+|  5 | 00005 | Sania Sahwananti | perempuan     | Sulawesi   | 2000-01-14 |      NULL |       NULL | Sukajaya   |        1 |         1 |          84 |   49 |
+| 18 | 00018 | Sopyan           | laki-laki     | Plered     | 2004-04-27 |      NULL |       NULL | Maniis     |        2 |         2 |          78 |   37 |
+|  9 | 00009 | Melinda          | perempuan     | Madura     | 2002-01-28 |      NULL |       NULL | Lewiloa    |        3 |         3 |          69 |   28 |
+|  2 | 00002 | Muhammad Fazri   | laki-laki     | Cianjur    | 2005-03-31 |      NULL |       NULL | Cikadu     |        2 |         2 |          66 |   27 |
+| 16 | 00016 | Alfiansyah       | laki-laki     |            | 2002-06-12 |      NULL |       NULL | Gandasoli  |        1 |         1 |          66 |   44 |
+| 17 | 00017 | Putri Cahya      | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang   |        4 |         4 |          63 |   46 |
+| 13 | 00013 | Kania Amalia     | perempuan     | Sumatera   | 2001-01-29 |      NULL |       NULL | Cikaret    |        1 |         1 |          59 |   28 |
+|  3 | 00003 | Gita Lestari     | perempuan     | Bandung    | 0000-00-00 |      NULL |       NULL | Naringgul  |        1 |         1 |          56 |   33 |
+|  1 | 00001 | Nadila Nurizki   | perempuan     | Bogor      | 2004-02-28 |      NULL |       NULL | Sukajaya   |        3 |         3 |          51 |   41 |
+| 12 | 00012 | Faris            | laki-laki     | Solo       | 2004-07-07 |      NULL |       NULL | Nanggleng  |        3 |         3 |          51 |   29 |
+| 15 | 00015 | Wahuril Inayah   | perempuan     | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan  |        2 |         2 |          50 |   25 |
+|  4 | 00004 | Revan Kurniawan  | laki-laki     | Surabaya   | 2000-01-29 |      NULL |       NULL | Cidahu     |        2 |         2 |          42 |   26 |
++----+-------+------------------+---------------+------------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+18 rows in set (0.001 sec)
+36. MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    ->  LIMIT 5 OFFSET 0;
++----+-------+------------------+---------------+-----------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+| id | nip   | nama             | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat    | iddivisi | idjabatan | berat_badan | umur |
++----+-------+------------------+---------------+-----------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+|  1 | 00001 | Nadila Nurizki   | perempuan     | Bogor     | 2004-02-28 |      NULL |       NULL | Sukajaya  |        3 |         3 |          51 |   41 |
+|  2 | 00002 | Muhammad Fazri   | laki-laki     | Cianjur   | 2005-03-31 |      NULL |       NULL | Cikadu    |        2 |         2 |          66 |   27 |
+|  3 | 00003 | Gita Lestari     | perempuan     | Bandung   | 0000-00-00 |      NULL |       NULL | Naringgul |        1 |         1 |          56 |   33 |
+|  4 | 00004 | Revan Kurniawan  | laki-laki     | Surabaya  | 2000-01-29 |      NULL |       NULL | Cidahu    |        2 |         2 |          42 |   26 |
+|  5 | 00005 | Sania Sahwananti | perempuan     | Sulawesi  | 2000-01-14 |      NULL |       NULL | Sukajaya  |        1 |         1 |          84 |   49 |
++----+-------+------------------+---------------+-----------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+5 rows in set (0.002 sec)
+37. MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    -> ORDER BY berat_badan DESC
+    -> LIMIT 5 OFFSET 0;
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| 10 | 00010 | Farel         | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
+|  8 | 00008 | Asep          | laki-laki     | Jonggol   | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 11 | 00011 | Riska Marissa | perempuan     | semarang  | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+|  7 | 00007 | Amanda        | perempuan     | Cikalong  | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+| 14 | 00014 | Alfan         | laki-laki     | Jambi     | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+5 rows in set (0.002 sec)
+38.MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    -> LIMIT 5 OFFSET 13;
++----+-------+----------------+---------------+------------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+| id | nip   | nama           | jenis_kelamin | tmp_lahir  | tgl_lahir  | id_divisi | id_jabatan | alamat    | iddivisi | idjabatan | berat_badan | umur |
++----+-------+----------------+---------------+------------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+| 14 | 00014 | Alfan          | laki-laki     | Jambi      | 2000-01-21 |      NULL |       NULL | Mande     |        3 |         3 |         101 |   34 |
+| 15 | 00015 | Wahuril Inayah | perempuan     | Denpasar   | 2005-09-13 |      NULL |       NULL | Pangkalan |        2 |         2 |          50 |   25 |
+| 16 | 00016 | Alfiansyah     | laki-laki     |            | 2002-06-12 |      NULL |       NULL | Gandasoli |        1 |         1 |          66 |   44 |
+| 17 | 00017 | Putri Cahya    | perempuan     | Kalimantan | 2002-01-15 |      NULL |       NULL | Ciherang  |        4 |         4 |          63 |   46 |
+| 18 | 00018 | Sopyan         | laki-laki     | Plered     | 2004-04-27 |      NULL |       NULL | Maniis    |        2 |         2 |          78 |   37 |
++----+-------+----------------+---------------+------------+------------+-----------+------------+-----------+----------+-----------+-------------+------+
+5 rows in set (0.002 sec)
+39. MariaDB [dbpegawaii]> SELECT * FROM pegawai
+    ->  ORDER BY berat_badan
+    -> LIMIT 5 OFFSET 13;
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat     | iddivisi | idjabatan | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+| 14 | 00014 | Alfan         | laki-laki     | Jambi     | 2000-01-21 |      NULL |       NULL | Mande      |        3 |         3 |         101 |   34 |
+|  7 | 00007 | Amanda        | perempuan     | Cikalong  | 0000-00-00 |      NULL |       NULL | Maleber    |        1 |         1 |         104 |   24 |
+| 11 | 00011 | Riska Marissa | perempuan     | semarang  | 2001-01-12 |      NULL |       NULL | Cipanas    |        2 |         2 |         105 |   20 |
+|  8 | 00008 | Asep          | laki-laki     | Jonggol   | 2005-03-29 |      NULL |       NULL | Darungdung |        4 |         4 |         116 |   48 |
+| 10 | 00010 | Farel         | laki-laki     | Jakarta   | 2002-02-20 |      NULL |       NULL | cisarua    |        1 |         1 |         119 |   56 |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+------------+----------+-----------+-------------+------+
+5 rows in set (0.002 sec)
+40.MariaDB [dbpegawaii]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai;
++----------------+
+| jumlah_pegawai |
++----------------+
+|             18 |
++----------------+
+1 row in set (0.004 sec)
+41.MariaDB [dbpegawaii]> SELECT nip,nama,umur FROM pegawai WHERE umur =(SELECT MAX(umur) FROM pegawai);
++------+-------+------+
+| nip   | nama  | umur |
++-------+-------+------+
+| 00010 | Farel |   56 |
++-------+-------+------+
+1 row in set (0.001 sec)
+42.MariaDB [dbpegawaii]> SELECT nip,nama,berat_badan FROM pegawai WHERE berat_badan =(SELECT MIN(berat_badan) FROM pegawai);
++-------+-----------------+-------------+
+| nip   | nama            | berat_badan |
++-------+-----------------+-------------+
+| 00004 | Revan Kurniawan |          42 |
++-------+-----------------+-------------+
+1 row in set (0.001 sec)
+43. 
+MariaDB [dbpegawaii]> SELECT AVG(umur) AS umur_rata2 FROM pegawai;
++------------+
+| umur_rata2 |
++------------+
+|    34.7222 |
++------------+
+1 row in set (0.002 sec)
+44.MariaDB [dbpegawaii]> SELECT COUNT(*) AS jml_manajer FROM pegawai
+    ->  WHERE jenis_kelamin = 'Laki-Laki' AND umur > 40  AND idjabatan = 3;
++-------------+
+| jml_manajer |
++-------------+
+|           0 |
++-------------+
+1 row in set (0.001 sec)
+45. MariaDB [dbpegawaii]>  SELECT COUNT(*) AS jml_staff_perempuan FROM pegawai
+    ->  WHERE jenis_kelamin = 'Perempuan' AND umur < 40  AND idjabatan = 4;
++---------------------+
+| jml_staff_perempuan |
++---------------------+
+|                   0 |
++---------------------+
+1 row in set (0.084 sec)
+46
+MariaDB [dbpegawaii]>  SELECT * FROM pegawai
+    ->  WHERE nama LIKE '__S%';
++----+-------+---------------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tmp_lahir | tgl_lahir  | id_divisi | id_jabatan | alamat  | iddivisi | idjabatan | berat_badan | umur |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+| 11 | 00011 | Riska Marissa | perempuan     | semarang  | 2001-01-12 |      NULL |       NULL | Cipanas |        2 |         2 |         105 |   20 |
++----+-------+---------------+---------------+-----------+------------+-----------+------------+---------+----------+-----------+-------------+------+
+1 row in set (0.001 sec).
